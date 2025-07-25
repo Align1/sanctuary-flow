@@ -5,6 +5,7 @@ class BibleReading {
   final String verse;
   final DateTime dateRead;
   final int minutesSpent;
+  final String bibleVersion;
   final String? notes;
 
   BibleReading({
@@ -14,6 +15,7 @@ class BibleReading {
     required this.verse,
     required this.dateRead,
     required this.minutesSpent,
+    required this.bibleVersion,
     this.notes,
   });
 
@@ -24,6 +26,7 @@ class BibleReading {
         'verse': verse,
         'dateRead': dateRead.toIso8601String(),
         'minutesSpent': minutesSpent,
+        'bibleVersion': bibleVersion,
         'notes': notes,
       };
 
@@ -34,6 +37,7 @@ class BibleReading {
         verse: json['verse'],
         dateRead: DateTime.parse(json['dateRead']),
         minutesSpent: json['minutesSpent'],
+        bibleVersion: json['bibleVersion'] ?? 'KJV',
         notes: json['notes'],
       );
 }

@@ -136,12 +136,18 @@ class _BibleTrackerScreenState extends State<BibleTrackerScreen> {
     return _readings.fold(0, (sum, reading) => sum + reading.minutesSpent);
   }
 
+  static const List<String> _bibleVersions = [
+    'KJV', 'NIV', 'ESV', 'NKJV', 'NLT', 'NASB', 'CSB', 'RSV', 'NRSV', 'NET', 'AMP'
+  ];
+  String _selectedBibleVersion = 'KJV';
+
   void _showAddReadingDialog() {
     final bookController = TextEditingController();
     final chapterController = TextEditingController();
     final verseController = TextEditingController();
     final minutesController = TextEditingController();
     final notesController = TextEditingController();
+    String selectedVersion = _selectedBibleVersion;
 
     showDialog(
       context: context,
@@ -151,6 +157,19 @@ class _BibleTrackerScreenState extends State<BibleTrackerScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              DropdownButtonFormField<String>(
+                value: selectedVersion,
+                decoration: const InputDecoration(
+                  labelText: 'Bible Version',
+                ),
+                items: _bibleVersions.map((version) => DropdownMenuItem(
+                  value: version,
+                  child: Text(version),
+                )).toList(),
+                onChanged: (value) {
+                  if (value != null) selectedVersion = value;
+                },
+              ),
               TextField(
                 controller: bookController,
                 decoration: const InputDecoration(
@@ -211,6 +230,7 @@ class _BibleTrackerScreenState extends State<BibleTrackerScreen> {
                   verse: verseController.text.isEmpty ? 'All' : verseController.text,
                   dateRead: DateTime.now(),
                   minutesSpent: int.tryParse(minutesController.text) ?? 0,
+                  bibleVersion: selectedVersion,
                   notes: notesController.text.isEmpty ? null : notesController.text,
                 );
 
@@ -232,6 +252,7 @@ class _BibleTrackerScreenState extends State<BibleTrackerScreen> {
     final verseController = TextEditingController(text: reading.verse == 'All' ? '' : reading.verse);
     final minutesController = TextEditingController(text: reading.minutesSpent.toString());
     final notesController = TextEditingController(text: reading.notes ?? '');
+    String selectedVersion = reading.bibleVersion;
 
     showDialog(
       context: context,
@@ -241,6 +262,19 @@ class _BibleTrackerScreenState extends State<BibleTrackerScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              DropdownButtonFormField<String>(
+                value: selectedVersion,
+                decoration: const InputDecoration(
+                  labelText: 'Bible Version',
+                ),
+                items: _bibleVersions.map((version) => DropdownMenuItem(
+                  value: version,
+                  child: Text(version),
+                )).toList(),
+                onChanged: (value) {
+                  if (value != null) selectedVersion = value;
+                },
+              ),
               TextField(
                 controller: bookController,
                 decoration: const InputDecoration(
@@ -301,6 +335,7 @@ class _BibleTrackerScreenState extends State<BibleTrackerScreen> {
                   verse: verseController.text.isEmpty ? 'All' : verseController.text,
                   dateRead: reading.dateRead,
                   minutesSpent: int.tryParse(minutesController.text) ?? 0,
+                  bibleVersion: selectedVersion,
                   notes: notesController.text.isEmpty ? null : notesController.text,
                 );
 

@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:sanctuaryflow/models/daily_verse.dart';
 import 'package:sanctuaryflow/services/local_storage_service.dart';
 
@@ -56,6 +58,31 @@ class VerseService {
     }
   ];
 
+  static List<Map<String, String>> _loadedVerses = [];
+  static bool _versesLoaded = false;
+
+  static Future<void> loadVersesFromAssets() async {
+    if (_versesLoaded) return;
+    try {
+      final String jsonString = await rootBundle.loadString('assets/verses.json');
+      final List<dynamic> jsonList = json.decode(jsonString);
+      _loadedVerses = jsonList.map<Map<String, String>>((item) => {
+        'verse': item['verse'] as String,
+        'reference': item['reference'] as String,
+        'version': item['version'] as String,
+      }).toList();
+      _versesLoaded = true;
+    } catch (e) {
+      _loadedVerses = [];
+      _versesLoaded = true;
+    }
+  }
+
+  static Future<List<Map<String, String>>> getVerseList() async {
+    await loadVersesFromAssets();
+    return _loadedVerses.isNotEmpty ? _loadedVerses : _sampleVerses;
+  }
+
   static Future<DailyVerse> getTodaysVerse() async {
     // Check if we already have today's verse
     final existingVerse = await LocalStorageService.getTodaysVerse();
@@ -65,8 +92,9 @@ class VerseService {
 
     // Generate new verse for today
     final today = DateTime.now();
+    final verseList = await getVerseList();
     final random = Random(today.day + today.month * 31 + today.year * 365);
-    final selectedVerse = _sampleVerses[random.nextInt(_sampleVerses.length)];
+    final selectedVerse = verseList[random.nextInt(verseList.length)];
 
     final todaysVerse = DailyVerse(
       id: 'verse_${today.year}_${today.month}_${today.day}',
