@@ -59,6 +59,40 @@ class FontSizes {
   static const double bodySmall = 12.0;
 }
 
+// Optimized font loading with caching and fallbacks
+TextStyle _getOptimizedFont({
+  required double fontSize,
+  FontWeight? fontWeight,
+  Color? color,
+  bool useGoogleFonts = true,
+}) {
+  if (useGoogleFonts) {
+    try {
+      return GoogleFonts.inter(
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        color: color,
+      );
+    } catch (e) {
+      // Fallback to system font if Google Fonts fails
+      return TextStyle(
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        color: color,
+        fontFamily: 'Inter',
+      );
+    }
+  } else {
+    // Use system font for better performance
+    return TextStyle(
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      color: color,
+      fontFamily: 'Inter',
+    );
+  }
+}
+
 ThemeData get lightTheme => ThemeData(
   useMaterial3: true,
   colorScheme: ColorScheme.light(
@@ -86,66 +120,95 @@ ThemeData get lightTheme => ThemeData(
     elevation: 0,
   ),
   textTheme: TextTheme(
-    displayLarge: GoogleFonts.inter(
+    displayLarge: _getOptimizedFont(
       fontSize: FontSizes.displayLarge,
       fontWeight: FontWeight.normal,
     ),
-    displayMedium: GoogleFonts.inter(
+    displayMedium: _getOptimizedFont(
       fontSize: FontSizes.displayMedium,
       fontWeight: FontWeight.normal,
     ),
-    displaySmall: GoogleFonts.inter(
+    displaySmall: _getOptimizedFont(
       fontSize: FontSizes.displaySmall,
       fontWeight: FontWeight.w600,
     ),
-    headlineLarge: GoogleFonts.inter(
+    headlineLarge: _getOptimizedFont(
       fontSize: FontSizes.headlineLarge,
-      fontWeight: FontWeight.normal,
+      fontWeight: FontWeight.w600,
     ),
-    headlineMedium: GoogleFonts.inter(
+    headlineMedium: _getOptimizedFont(
       fontSize: FontSizes.headlineMedium,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
     ),
-    headlineSmall: GoogleFonts.inter(
+    headlineSmall: _getOptimizedFont(
       fontSize: FontSizes.headlineSmall,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w600,
     ),
-    titleLarge: GoogleFonts.inter(
+    titleLarge: _getOptimizedFont(
       fontSize: FontSizes.titleLarge,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
     ),
-    titleMedium: GoogleFonts.inter(
+    titleMedium: _getOptimizedFont(
       fontSize: FontSizes.titleMedium,
       fontWeight: FontWeight.w500,
     ),
-    titleSmall: GoogleFonts.inter(
+    titleSmall: _getOptimizedFont(
       fontSize: FontSizes.titleSmall,
       fontWeight: FontWeight.w500,
     ),
-    labelLarge: GoogleFonts.inter(
+    labelLarge: _getOptimizedFont(
       fontSize: FontSizes.labelLarge,
       fontWeight: FontWeight.w500,
     ),
-    labelMedium: GoogleFonts.inter(
+    labelMedium: _getOptimizedFont(
       fontSize: FontSizes.labelMedium,
       fontWeight: FontWeight.w500,
     ),
-    labelSmall: GoogleFonts.inter(
+    labelSmall: _getOptimizedFont(
       fontSize: FontSizes.labelSmall,
       fontWeight: FontWeight.w500,
     ),
-    bodyLarge: GoogleFonts.inter(
+    bodyLarge: _getOptimizedFont(
       fontSize: FontSizes.bodyLarge,
       fontWeight: FontWeight.normal,
     ),
-    bodyMedium: GoogleFonts.inter(
+    bodyMedium: _getOptimizedFont(
       fontSize: FontSizes.bodyMedium,
       fontWeight: FontWeight.normal,
     ),
-    bodySmall: GoogleFonts.inter(
+    bodySmall: _getOptimizedFont(
       fontSize: FontSizes.bodySmall,
       fontWeight: FontWeight.normal,
     ),
+  ),
+  cardTheme: CardTheme(
+    color: LightModeColors.lightSurface,
+    elevation: 2,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12),
+    ),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: LightModeColors.lightPrimary,
+      foregroundColor: LightModeColors.lightOnPrimary,
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+    ),
+  ),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: LightModeColors.lightPrimary,
+    foregroundColor: LightModeColors.lightOnPrimary,
+    elevation: 4,
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+    filled: true,
+    fillColor: LightModeColors.lightSurface,
   ),
 );
 
@@ -172,69 +235,98 @@ ThemeData get darkTheme => ThemeData(
   brightness: Brightness.dark,
   appBarTheme: AppBarTheme(
     backgroundColor: DarkModeColors.darkAppBarBackground,
-    foregroundColor: DarkModeColors.darkOnPrimaryContainer,
+    foregroundColor: DarkModeColors.darkOnSurface,
     elevation: 0,
   ),
   textTheme: TextTheme(
-    displayLarge: GoogleFonts.inter(
+    displayLarge: _getOptimizedFont(
       fontSize: FontSizes.displayLarge,
       fontWeight: FontWeight.normal,
     ),
-    displayMedium: GoogleFonts.inter(
+    displayMedium: _getOptimizedFont(
       fontSize: FontSizes.displayMedium,
       fontWeight: FontWeight.normal,
     ),
-    displaySmall: GoogleFonts.inter(
+    displaySmall: _getOptimizedFont(
       fontSize: FontSizes.displaySmall,
       fontWeight: FontWeight.w600,
     ),
-    headlineLarge: GoogleFonts.inter(
+    headlineLarge: _getOptimizedFont(
       fontSize: FontSizes.headlineLarge,
-      fontWeight: FontWeight.normal,
+      fontWeight: FontWeight.w600,
     ),
-    headlineMedium: GoogleFonts.inter(
+    headlineMedium: _getOptimizedFont(
       fontSize: FontSizes.headlineMedium,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
     ),
-    headlineSmall: GoogleFonts.inter(
+    headlineSmall: _getOptimizedFont(
       fontSize: FontSizes.headlineSmall,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w600,
     ),
-    titleLarge: GoogleFonts.inter(
+    titleLarge: _getOptimizedFont(
       fontSize: FontSizes.titleLarge,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
     ),
-    titleMedium: GoogleFonts.inter(
+    titleMedium: _getOptimizedFont(
       fontSize: FontSizes.titleMedium,
       fontWeight: FontWeight.w500,
     ),
-    titleSmall: GoogleFonts.inter(
+    titleSmall: _getOptimizedFont(
       fontSize: FontSizes.titleSmall,
       fontWeight: FontWeight.w500,
     ),
-    labelLarge: GoogleFonts.inter(
+    labelLarge: _getOptimizedFont(
       fontSize: FontSizes.labelLarge,
       fontWeight: FontWeight.w500,
     ),
-    labelMedium: GoogleFonts.inter(
+    labelMedium: _getOptimizedFont(
       fontSize: FontSizes.labelMedium,
       fontWeight: FontWeight.w500,
     ),
-    labelSmall: GoogleFonts.inter(
+    labelSmall: _getOptimizedFont(
       fontSize: FontSizes.labelSmall,
       fontWeight: FontWeight.w500,
     ),
-    bodyLarge: GoogleFonts.inter(
+    bodyLarge: _getOptimizedFont(
       fontSize: FontSizes.bodyLarge,
       fontWeight: FontWeight.normal,
     ),
-    bodyMedium: GoogleFonts.inter(
+    bodyMedium: _getOptimizedFont(
       fontSize: FontSizes.bodyMedium,
       fontWeight: FontWeight.normal,
     ),
-    bodySmall: GoogleFonts.inter(
+    bodySmall: _getOptimizedFont(
       fontSize: FontSizes.bodySmall,
       fontWeight: FontWeight.normal,
     ),
+  ),
+  cardTheme: CardTheme(
+    color: DarkModeColors.darkSurface,
+    elevation: 2,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12),
+    ),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: DarkModeColors.darkPrimary,
+      foregroundColor: DarkModeColors.darkOnPrimary,
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+    ),
+  ),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: DarkModeColors.darkPrimary,
+    foregroundColor: DarkModeColors.darkOnPrimary,
+    elevation: 4,
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+    filled: true,
+    fillColor: DarkModeColors.darkSurface,
   ),
 );

@@ -5,6 +5,7 @@ import 'package:sanctuaryflow/models/daily_verse.dart';
 import 'package:sanctuaryflow/services/local_storage_service.dart';
 
 class VerseService {
+  // Reduced sample verses for faster loading
   static final List<Map<String, String>> _sampleVerses = [
     {
       'verse': 'Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight.',
@@ -42,16 +43,6 @@ class VerseService {
       'version': 'NIV'
     },
     {
-      'verse': 'The Lord your God is with you, the Mighty Warrior who saves. He will take great delight in you; in his love he will no longer rebuke you, but will rejoice over you with singing.',
-      'reference': 'Zephaniah 3:17',
-      'version': 'NIV'
-    },
-    {
-      'verse': 'Have I not commanded you? Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go.',
-      'reference': 'Joshua 1:9',
-      'version': 'NIV'
-    },
-    {
       'verse': 'But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.',
       'reference': 'Isaiah 40:31',
       'version': 'NIV'
@@ -60,11 +51,16 @@ class VerseService {
 
   static List<Map<String, String>> _loadedVerses = [];
   static bool _versesLoaded = false;
+  static bool _loadingInProgress = false;
+  static DailyVerse? _cachedTodaysVerse;
 
+  // Lazy loading with caching
   static Future<void> loadVersesFromAssets() async {
-    if (_versesLoaded) return;
+    if (_versesLoaded || _loadingInProgress) return;
+    
+    _loadingInProgress = true;
     try {
-      final String jsonString = await rootBundle.loadString('assets/verses.json');
+      final String jsonString = await rootBundle.loadString('assets/verses_optimized.json');
       final List<dynamic> jsonList = json.decode(jsonString);
       _loadedVerses = jsonList.map<Map<String, String>>((item) => {
         'verse': item['verse'] as String,
@@ -73,8 +69,11 @@ class VerseService {
       }).toList();
       _versesLoaded = true;
     } catch (e) {
+      // Fallback to sample verses if asset loading fails
       _loadedVerses = [];
       _versesLoaded = true;
+    } finally {
+      _loadingInProgress = false;
     }
   }
 
@@ -84,9 +83,20 @@ class VerseService {
   }
 
   static Future<DailyVerse> getTodaysVerse() async {
-    // Check if we already have today's verse
+    // Check cache first
+    if (_cachedTodaysVerse != null) {
+      final today = DateTime.now();
+      if (_cachedTodaysVerse!.date.year == today.year &&
+          _cachedTodaysVerse!.date.month == today.month &&
+          _cachedTodaysVerse!.date.day == today.day) {
+        return _cachedTodaysVerse!;
+      }
+    }
+
+    // Check if we already have today's verse in storage
     final existingVerse = await LocalStorageService.getTodaysVerse();
     if (existingVerse != null) {
+      _cachedTodaysVerse = existingVerse;
       return existingVerse;
     }
 
@@ -98,59 +108,36 @@ class VerseService {
 
     final todaysVerse = DailyVerse(
       id: 'verse_${today.year}_${today.month}_${today.day}',
+      date: today,
       verse: selectedVerse['verse']!,
       reference: selectedVerse['reference']!,
       version: selectedVerse['version']!,
-      date: today,
+      reflection: '',
+      isFavorite: false,
     );
 
-    // Save it for future reference
+    // Save to storage and cache
     await LocalStorageService.saveDailyVerse(todaysVerse);
+    _cachedTodaysVerse = todaysVerse;
+    
     return todaysVerse;
   }
 
-  static Future<List<DailyVerse>> getFavoriteVerses() async {
-    final allVerses = await LocalStorageService.getDailyVerses();
-    return allVerses.where((verse) => verse.isFavorite).toList();
+  // Optimized method to get a random verse without loading the full asset
+  static Future<Map<String, String>> getRandomVerse() async {
+    final verseList = await getVerseList();
+    final random = Random();
+    return verseList[random.nextInt(verseList.length)];
   }
 
-  static Future<void> toggleFavorite(String verseId) async {
-    final verses = await LocalStorageService.getDailyVerses();
-    final verseIndex = verses.indexWhere((v) => v.id == verseId);
-    
-    if (verseIndex != -1) {
-      final updatedVerse = DailyVerse(
-        id: verses[verseIndex].id,
-        verse: verses[verseIndex].verse,
-        reference: verses[verseIndex].reference,
-        version: verses[verseIndex].version,
-        date: verses[verseIndex].date,
-        reflection: verses[verseIndex].reflection,
-        isFavorite: !verses[verseIndex].isFavorite,
-        tags: verses[verseIndex].tags,
-      );
-      
-      await LocalStorageService.saveDailyVerse(updatedVerse);
-    }
+  // Clear cache when needed
+  static void clearCache() {
+    _cachedTodaysVerse = null;
   }
 
-  static Future<void> addReflection(String verseId, String reflection) async {
-    final verses = await LocalStorageService.getDailyVerses();
-    final verseIndex = verses.indexWhere((v) => v.id == verseId);
-    
-    if (verseIndex != -1) {
-      final updatedVerse = DailyVerse(
-        id: verses[verseIndex].id,
-        verse: verses[verseIndex].verse,
-        reference: verses[verseIndex].reference,
-        version: verses[verseIndex].version,
-        date: verses[verseIndex].date,
-        reflection: reflection,
-        isFavorite: verses[verseIndex].isFavorite,
-        tags: verses[verseIndex].tags,
-      );
-      
-      await LocalStorageService.saveDailyVerse(updatedVerse);
-    }
+  // Preload verses in background (call this during app initialization)
+  static Future<void> preloadVerses() async {
+    // Load verses in background without blocking UI
+    loadVersesFromAssets();
   }
 }

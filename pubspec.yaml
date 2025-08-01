@@ -22,4 +22,5 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/verses.json
+    - assets/verses_optimized.json
+    # - assets/verses.json  # Commented out to reduce bundle size
