@@ -33,17 +33,26 @@ class LocalStorageService {
   static Future<void> _initializeCache() async {
     if (_cacheInitialized) return;
     
-    // Initialize cache in background
-    _bibleReadingsCache = await _loadBibleReadingsFromStorage();
-    _bookReadingsCache = await _loadBookReadingsFromStorage();
-    _spiritualGoalsCache = await _loadSpiritualGoalsFromStorage();
-    _dailyVersesCache = await _loadDailyVersesFromStorage();
-    _cacheInitialized = true;
+    try {
+      // Initialize cache in background
+      _bibleReadingsCache = await _loadBibleReadingsFromStorage();
+      _bookReadingsCache = await _loadBookReadingsFromStorage();
+      _spiritualGoalsCache = await _loadSpiritualGoalsFromStorage();
+      _dailyVersesCache = await _loadDailyVersesFromStorage();
+      _cacheInitialized = true;
+    } catch (e) {
+      // Initialize with empty lists if loading fails
+      _bibleReadingsCache = [];
+      _bookReadingsCache = [];
+      _spiritualGoalsCache = [];
+      _dailyVersesCache = [];
+      _cacheInitialized = true;
+    }
   }
 
   // Optimized Bible Readings methods
   static Future<void> saveBibleReading(BibleReading reading) async {
-    _bibleReadingsCache ??= [];
+    await _ensureCacheInitialized();
     _bibleReadingsCache!.add(reading);
     await _saveBibleReadingsToStorage(_bibleReadingsCache!);
   }
@@ -70,7 +79,7 @@ class LocalStorageService {
 
   // Optimized Book Readings methods
   static Future<void> saveBookReading(BookReading book) async {
-    _bookReadingsCache ??= [];
+    await _ensureCacheInitialized();
     final existingIndex = _bookReadingsCache!.indexWhere((b) => b.id == book.id);
     if (existingIndex != -1) {
       _bookReadingsCache![existingIndex] = book;
@@ -87,7 +96,7 @@ class LocalStorageService {
 
   // Optimized Spiritual Goals methods
   static Future<void> saveSpiritualGoal(SpiritualGoal goal) async {
-    _spiritualGoalsCache ??= [];
+    await _ensureCacheInitialized();
     final existingIndex = _spiritualGoalsCache!.indexWhere((g) => g.id == goal.id);
     if (existingIndex != -1) {
       _spiritualGoalsCache![existingIndex] = goal;
@@ -104,7 +113,7 @@ class LocalStorageService {
 
   // Optimized Daily Verses methods
   static Future<void> saveDailyVerse(DailyVerse verse) async {
-    _dailyVersesCache ??= [];
+    await _ensureCacheInitialized();
     final existingIndex = _dailyVersesCache!.indexWhere((v) => v.id == verse.id);
     if (existingIndex != -1) {
       _dailyVersesCache![existingIndex] = verse;
@@ -122,13 +131,15 @@ class LocalStorageService {
   static Future<DailyVerse?> getTodaysVerse() async {
     await _ensureCacheInitialized();
     final today = DateTime.now();
-    return _dailyVersesCache?.cast<DailyVerse?>().firstWhere(
-      (v) => v != null && 
-             v.date.year == today.year &&
-             v.date.month == today.month &&
-             v.date.day == today.day,
-      orElse: () => null,
-    );
+    try {
+      return _dailyVersesCache?.firstWhere(
+        (v) => v.date.year == today.year &&
+               v.date.month == today.month &&
+               v.date.day == today.day,
+      );
+    } catch (e) {
+      return null;
+    }
   }
 
   // Helper methods for storage operations

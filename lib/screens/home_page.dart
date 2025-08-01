@@ -195,7 +195,7 @@ class _HomePageState extends State<HomePage> {
           title: 'Bible Reading',
           subtitle: 'Track your daily reading',
           icon: Icons.auto_stories,
-          color: theme.colorScheme.primary,
+          iconColor: theme.colorScheme.primary,
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
@@ -207,7 +207,7 @@ class _HomePageState extends State<HomePage> {
           title: 'Prayer Time',
           subtitle: 'Schedule reminders',
           icon: Icons.prayer_times,
-          color: theme.colorScheme.secondary,
+          iconColor: theme.colorScheme.secondary,
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
@@ -219,7 +219,7 @@ class _HomePageState extends State<HomePage> {
           title: 'Messages',
           subtitle: 'Track sermons & podcasts',
           icon: Icons.headphones,
-          color: theme.colorScheme.tertiary,
+          iconColor: theme.colorScheme.tertiary,
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
@@ -231,7 +231,7 @@ class _HomePageState extends State<HomePage> {
           title: 'Book Reading',
           subtitle: 'Track Christian books',
           icon: Icons.book,
-          color: theme.colorScheme.primary,
+          iconColor: theme.colorScheme.primary,
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
@@ -243,7 +243,7 @@ class _HomePageState extends State<HomePage> {
           title: 'Spiritual Goals',
           subtitle: 'Set & track goals',
           icon: Icons.flag,
-          color: theme.colorScheme.secondary,
+          iconColor: theme.colorScheme.secondary,
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
@@ -255,7 +255,7 @@ class _HomePageState extends State<HomePage> {
           title: 'Daily Verse',
           subtitle: 'Today\'s inspiration',
           icon: Icons.quote,
-          color: theme.colorScheme.tertiary,
+          iconColor: theme.colorScheme.tertiary,
           onTap: () => _loadTodaysVerse(),
         ),
       ],
