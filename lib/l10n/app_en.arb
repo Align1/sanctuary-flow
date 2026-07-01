@@ -1,0 +1,207 @@
+{
+  "@@locale": "en",
+  
+  "appTitle": "SanctuaryFlow",
+  "@appTitle": {
+    "description": "The application title"
+  },
+  
+  "appSubtitle": "Spiritual Growth",
+  "@appSubtitle": {
+    "description": "The application subtitle"
+  },
+
+  "home": "Home",
+  "bibleReading": "Bible Reading",
+  "prayer": "Prayer",
+  "messages": "Messages",
+  "books": "Books",
+  "goals": "Goals",
+  "settings": "Settings",
+  
+  "dailyVerse": "Daily Verse",
+  "readingStreak": "Reading Streak",
+  "achievements": "Achievements",
+  "readingPlans": "Reading Plans",
+  "verseArchive": "Verse Archive",
+  "reminderSettings": "Reminder Settings",
+  "offlineMode": "Offline Mode",
+  "language": "Language",
+  
+  "days": "Days",
+  "best": "Best",
+  "current": "Current",
+  "total": "Total",
+  "progress": "Progress",
+  
+  "addReflection": "Add Reflection",
+  "saveReflection": "Save Reflection",
+  "yourReflection": "Your reflection...",
+  "favorite": "Favorite",
+  "share": "Share",
+  "delete": "Delete",
+  "cancel": "Cancel",
+  "save": "Save",
+  "edit": "Edit",
+  "add": "Add",
+  "done": "Done",
+  
+  "reflectionHint": "Write your thoughts and reflections...",
+  "noReflection": "No reflection yet",
+  
+  "bibleTrackerTitle": "Bible Reading Tracker",
+  "addReading": "Add Reading",
+  "book": "Book",
+  "chapter": "Chapter",
+  "verses": "Verses",
+  "notes": "Notes",
+  "readingTime": "Reading Time",
+  "selectBook": "Select Book",
+  "chapterNumber": "Chapter Number",
+  "verseRange": "Verse Range (e.g., 1-10)",
+  "readingNotes": "Reading Notes",
+  "minutes": "minutes",
+  
+  "prayerScheduleTitle": "Prayer Schedule",
+  "addPrayerTime": "Add Prayer Time",
+  "prayerType": "Prayer Type",
+  "time": "Time",
+  "days_plural": "Days",
+  "active": "Active",
+  "inactive": "Inactive",
+  "morning": "Morning",
+  "evening": "Evening",
+  "night": "Night",
+  "custom": "Custom",
+  
+  "messageTrackerTitle": "Message Tracker",
+  "addMessage": "Add Message",
+  "speaker": "Speaker",
+  "source": "Source",
+  "duration": "Duration",
+  "rating": "Rating",
+  "church": "Church",
+  "podcast": "Podcast",
+  "youtube": "YouTube",
+  "online": "Online",
+  
+  "bookTrackerTitle": "Book Tracker",
+  "addBook": "Add Book",
+  "author": "Author",
+  "pages": "Pages",
+  "currentPage": "Current Page",
+  "status": "Status",
+  "reading": "Reading",
+  "completed": "Completed",
+  "paused": "Paused",
+  
+  "goalsTitle": "Spiritual Goals",
+  "addGoal": "Add Goal",
+  "goalTitle": "Goal Title",
+  "description": "Description",
+  "targetValue": "Target Value",
+  "currentValue": "Current Value",
+  "frequency": "Frequency",
+  "category": "Category",
+  "daily": "Daily",
+  "weekly": "Weekly",
+  "monthly": "Monthly",
+  "prayerCategory": "Prayer",
+  "bibleStudy": "Bible Study",
+  "service": "Service",
+  "worship": "Worship",
+  "fellowship": "Fellowship",
+  "evangelism": "Evangelism",
+  
+  "achievementsTitle": "Achievements",
+  "locked": "Locked",
+  "unlocked": "Unlocked",
+  "inProgress": "In Progress",
+  
+  "readingPlansTitle": "Reading Plans",
+  "startPlan": "Start Plan",
+  "continuePlan": "Continue",
+  "completedPlan": "Completed",
+  
+  "verseArchiveTitle": "Verse Archive",
+  "allVerses": "All Verses",
+  "favorites": "Favorites",
+  "searchVerses": "Search verses...",
+  
+  "offlineModeTitle": "Offline Mode",
+  "downloadVerses": "Download Verses",
+  "downloadForOffline": "Download for Offline",
+  "syncNow": "Sync Now",
+  "autoSync": "Auto-sync when online",
+  "lastSync": "Last sync",
+  "pendingSync": "Pending sync",
+  "offlineVerses": "Offline verses",
+  "workingOffline": "Working Offline",
+  "allSynced": "All Synced",
+  
+  "languageSettings": "Language Settings",
+  "selectLanguage": "Select Language",
+  "currentLanguage": "Current Language",
+  "changeLanguage": "Change Language",
+  
+  "english": "English",
+  "spanish": "Español",
+  "french": "Français", 
+  "portuguese": "Português",
+  "chinese": "中文",
+  
+  "welcomeMessage": "Welcome to your spiritual growth journey",
+  "continueReading": "Continue Reading",
+  "startYourDay": "Start your day with prayer",
+  "trackYourProgress": "Track your progress",
+  
+  "statistics": "Statistics",
+  "thisWeek": "This Week",
+  "thisMonth": "This Month",
+  "allTime": "All Time",
+  
+  "confirmDelete": "Confirm Delete",
+  "deleteMessage": "Are you sure you want to delete this?",
+  "yes": "Yes",
+  "no": "No",
+  
+  "errorOccurred": "An error occurred",
+  "tryAgain": "Try Again",
+  "noData": "No data available",
+  "loading": "Loading...",
+  
+  "streakMessage": "{count} day streak!",
+  "@streakMessage": {
+    "description": "Message showing the current streak",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "7"
+      }
+    }
+  },
+  
+  "versesDownloaded": "{count} verses downloaded",
+  "@versesDownloaded": {
+    "description": "Number of verses downloaded",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "goalProgress": "{current} of {target}",
+  "@goalProgress": {
+    "description": "Goal progress indicator",
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  }
+}
+

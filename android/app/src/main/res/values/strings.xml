@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rooted</string>
+    <string name="daily_verse_widget_description">Display today\'s Bible verse on your home screen</string>
+    <string name="streak_widget_description">Track your daily reading streak with quick actions</string>
+</resources>
+

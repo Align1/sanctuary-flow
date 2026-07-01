@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/daily_verse_widget"
+    android:minWidth="250dp"
+    android:minHeight="180dp"
+    android:previewImage="@drawable/launch_background"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="3600000"
+    android:widgetCategory="home_screen"
+    android:description="@string/daily_verse_widget_description"
+    android:initialKeyguardLayout="@layout/daily_verse_widget" />
+

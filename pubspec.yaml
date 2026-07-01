@@ -1,0 +1,63 @@
+name: rooted
+description: "Rooted - A spiritual growth app to help you grow deeper in your faith. Track Bible reading, prayers, messages, Christian books, spiritual goals, and receive daily verses. Root yourself in God's Word and watch your faith flourish."
+publish_to: "none"
+version: 1.0.0
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  
+  # Core dependencies
+  intl: ^0.20.2
+  cupertino_icons: ^1.0.8
+  google_fonts: ^6.1.0
+  shared_preferences: ^2.2.2
+  sqflite: ^2.3.0
+  path: ^1.8.3
+  path_provider: ^2.1.1
+  
+  # Notifications
+  flutter_local_notifications: ^17.2.2
+  timezone: ^0.9.4
+  
+  # Home widgets
+  home_widget: ^0.6.0
+  
+  # Connectivity
+  connectivity_plus: ^6.1.0
+  
+  # Sharing
+  share_plus: ^10.1.2
+  
+  # Networking
+  http: ^1.2.0
+  
+  # UI/UX
+  vibration: ^1.8.4
+  shimmer: ^3.0.0
+  supabase_flutter: ^2.12.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/app_icon.png"
+  adaptive_icon_background: "#F5F5DC"
+  adaptive_icon_foreground: "assets/icon/app_icon.png"
+
+flutter:
+  uses-material-design: true
+  generate: true
+  assets:
+    - assets/icon/
+    - assets/onboarding/
